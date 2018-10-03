@@ -418,6 +418,8 @@ defmodule ChangesFollower do
     {query, method, body, headers} = case query do
       %{doc_ids: doc_ids} ->
         {Map.delete(query, :doc_ids) |> Map.put(:filter, "_doc_ids"), :post, Poison.encode!(%{"doc_ids" => doc_ids}), [{"Content-Type", "application/json"}, {"Accept", "application/json"}]}
+      %{selector: selector} ->
+        {Map.delete(query, :selector) |> Map.put(:filter, "_selector"), :post, Poison.encode!(%{"selector" => selector}), [{"Content-Type", "application/json"}, {"Accept", "application/json"}]}
       _ ->
         {query, :get, nil, [{"Accept", "application/json"}]}
     end
